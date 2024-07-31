@@ -1,0 +1,44 @@
+from PIL import Image, ImageFilter
+import lib
+import sys
+
+
+settings = lib.Settings(
+    (2, 3),
+    15,
+    0.89,
+    True,
+    [
+        # lib.luminance_pixel,
+        lib.set_black_or_white,
+        lib.invert_pixel
+    ]
+)
+
+
+def main():
+    try:
+        filename = sys.argv[1]
+    except IndexError:
+        print("Fatal: Please provide a file as argument")
+        exit()
+
+    try:
+        image = Image.open(filename)
+    except FileNotFoundError:
+        print("Fatal: File not found")
+        exit()
+
+    ret = lib.dog(image, settings)
+
+    for f in settings.function_list:
+        ret = lib.map_over_image(ret, settings, f)
+
+    if settings.coloured:
+        ret = lib.colour(image.filter(ImageFilter.GaussianBlur(4)), ret, settings)
+
+    ret.show()
+
+
+if __name__ == "__main__":
+    main()
