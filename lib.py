@@ -79,6 +79,9 @@ def map_over_image(im: Image, settings: Settings, function) -> Image:
         for j in range(im.height):
             ret.putpixel((i, j), function(im.getpixel((i, j)), settings))
 
+        if i % 10 == 0:
+            print("col", i, "of", im.width)
+
     return ret
 
 
