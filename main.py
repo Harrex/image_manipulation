@@ -11,7 +11,7 @@ modes = {
         False,
         [
             lib.set_black_or_white,
-            lib.invert_pixel
+            # lib.invert_pixel
         ]
     ),
     "b&w": lib.Settings(
@@ -53,6 +53,9 @@ def main():
             ImageFilter.GaussianBlur(4)), ret, settings)
 
     ret.show()
+
+    if (savename := input("Filename to save? or 'n' to discard")) != "n":
+        ret.save(savename + "." + filename.split('.')[-1])
 
 
 if __name__ == "__main__":
